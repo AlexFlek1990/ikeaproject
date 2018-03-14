@@ -63,10 +63,16 @@ public class Good  {
         this.subCategoryName = subCategoryName;
     }
 
-
-//    public Good(String link, String categoryName, String subCategoryName) {
-//        this.link = link;
-//        this.categoryName = categoryName;
-//        this.subCategoryName = subCategoryName;
-//    }
+    @Override
+    public String toString() {
+        return "Good{" +
+                "goodName='" + goodName + '\'' +
+                ", link='" + link + '\'' +
+                ", price='" + price + '\'' +
+                ", description='" + description + '\'' +
+                ", id='" + id + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", subCategoryName='" + subCategoryName + '\'' +
+                '}';
+    }
 }

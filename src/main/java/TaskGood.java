@@ -1,22 +1,23 @@
-public class TaskGood implements Runnable {
+import java.util.concurrent.Callable;
+
+public class TaskGood implements Callable<Good> {
     private Good good;
-    Parser parser = new Parser();
+    private String name;
 
-
-    public TaskGood(Good good) {
+    public TaskGood(Good good, String name) {
         this.good = good;
+        this.name = name;
     }
 
 
-//    @Override
-    public void run() {
-        System.out.println("new thread");
+    public Good call() throws Exception {
+        Parser parser = new Parser();
+        System.out.println("Thread " + name + " start");
         parser.fillGoodDescription(good);
-//        parser.fillGoodDescription(good);
-//        System.out.println(good.getLink());
-//        System.out.println(good.getGoodName());
-//        System.out.println();
+        System.out.println("Thread " + name + " finished " + good.toString());
 
+        return good;
     }
+
 
 }
