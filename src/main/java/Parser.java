@@ -22,10 +22,8 @@ public class Parser {
             Elements div = document.getElementsByClass("allGoodsPage_tab");
             Elements categories = div.get(0).getElementsByClass("allGoodsPage_item");
 
-
             for (Element element : categories) {
                 String title = element.getElementsByClass("allGoodsPage_itemTitle").text();
-//                Category cat = new Category(title);
                 Elements div_links = element.getElementsByClass("allGoodsPage_itemLinks");
 
                 for (Element div_link : div_links) {
@@ -45,11 +43,11 @@ public class Parser {
     }
 
     public List<Good> getGoods(List<SubCategory> categoryList) {
-        Document document=null;
+        Document document;
         List<Good> list = new ArrayList<Good>();
         for (SubCategory subCategory : categoryList) {
             try {
-                document = Jsoup.connect(subCategory.link).get();
+                document = Jsoup.connect(subCategory.getLink()).get();
             } catch (HttpStatusException e) {
                 if (e.getStatusCode() == 404) {
                     System.out.println("No page found");
@@ -69,44 +67,39 @@ public class Parser {
                 for (Element good : goods) {
                     Element a = good.getElementsByTag("a").get(0);
                     String linkGood = a.attr("href");
-                    list.add(new Good(linkGood, subCategory.categoryName, subCategory.name));
+                    Good g = new Good();
+                    g.setLink(linkGood);
+                    g.setCategoryName(subCategory.getCategoryName());
+                    g.setSubCategoryName(subCategory.getName());
+                    list.add(g);
                 }
             }
-
-
         }
         return list;
     }
 
-    public List<Good> fullGoodDescription(List<Good> list) {
-        int i=0;
-        List<Good> result = new ArrayList<Good>();
+    public Good fillGoodDescription(Good good) {
         Document document = null;
 
-        for (Good good : list) {
             try {
-                document = Jsoup.connect("http://www.ikea.com/"+good.link).get();
+                document = Jsoup.connect("http://www.ikea.com/" + good.getLink()).get();
             } catch (HttpStatusException e) {
                 if (e.getStatusCode() == 404) {
                     System.out.println("No page found");
-                    continue;
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
-                continue;
             }
             Elements div = document.getElementsByClass("addList");
             Element description = div.get(0);
-            good.goodName = description.getElementsByClass("productName").text();
-            good.price = description.getElementsByClass("packagePrice").text();
+            String name =description.getElementsByClass("productName").text();
+            String price = description.getElementsByClass("packagePrice").text();
+            good.setGoodName(name);
+            good.setPrice(price);
 //            Element desc= description.getElementsByClass("salesArguments").get(0);
-//            good.description = desc.getElementsByTag("t").text();
-            result.add(good);
-            System.out.println("add description "+i++);
-
-        }
-        return result;
+//            good.description = desc.getElementsByClass("salesArguments").text();
+        return good;
     }
 }
 
