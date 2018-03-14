@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/*
+todo: хорошо бы подчистить весь закоммнетированный код  - плохой это тон -  код в перемешку с закоментированными кусками
+todo: в идеале начать пользовать логгером
+ */
 public class Demo {
     private static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
