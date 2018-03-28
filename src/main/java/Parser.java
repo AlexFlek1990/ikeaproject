@@ -97,8 +97,6 @@ public class Parser {
             String price = description.getElementsByClass("packagePrice").text();
             good.setGoodName(name);
             good.setPrice(price);
-//            Element desc= description.getElementsByClass("salesArguments").get(0);
-//            good.description = desc.getElementsByClass("salesArguments").text();
         return good;
     }
 }
